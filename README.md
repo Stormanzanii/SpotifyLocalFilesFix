@@ -8,6 +8,14 @@ When Spotify switches to a local file and playback gets stuck at the start, this
 
 ## Installation
 
+### PowerShell
+
+```powershell
+irm https://raw.githubusercontent.com/Stormanzanii/SpotifyLocalFilesFix/main/install.ps1 | iex
+```
+
+### Manual
+
 Place `SpotifyLocalFilesFix.js` in your Spicetify extensions folder:
 
 - Windows: `%APPDATA%\spicetify\Extensions`
