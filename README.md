@@ -8,7 +8,7 @@ When Spotify switches to a local file and playback gets stuck at the start, this
 
 ## Installation
 
-### PowerShell
+### One-Line Automatic PowerShell Install
 
 ```powershell
 irm https://raw.githubusercontent.com/Stormanzanii/SpotifyLocalFilesFix/main/install.ps1 | iex
