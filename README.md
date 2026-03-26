@@ -14,7 +14,7 @@ When Spotify switches to a local file and playback gets stuck at the start, this
 irm https://raw.githubusercontent.com/Stormanzanii/SpotifyLocalFilesFix/main/install.ps1 | iex
 ```
 
-### Uninstall
+### One-Line Automatic PowerShell Uninstall
 
 ```powershell
 irm https://raw.githubusercontent.com/Stormanzanii/SpotifyLocalFilesFix/main/uninstall.ps1 | iex
