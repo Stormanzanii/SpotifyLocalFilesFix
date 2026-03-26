@@ -11,7 +11,6 @@
 (function LocalFilesFixup() {
     if (
         !Spicetify?.Player?.addEventListener ||
-        !Spicetify?.Player?.getProgress ||
         !Spicetify?.Platform?.PlayerAPI?.seekTo ||
         !Spicetify?.Platform?.PlayerAPI?.resume
     ) {
@@ -34,10 +33,6 @@
         return new Promise(r => setTimeout(r, ms));
     }
 
-    function notify(msg) {
-        Spicetify.showNotification?.(msg, false, 2500);
-    }
-
     function isLocal(item) {
         const uri = item?.uri ?? item?.metadata?.uri ?? "";
         return uri.startsWith("spotify:local:");
@@ -47,8 +42,9 @@
         return Spicetify.Player.data ?? {};
     }
 
-    function getProgressMs() {
-        return Spicetify.Player.getProgress?.() ?? 0;
+    function isStuck(state) {
+        const pos = state?.positionAsOfTimestamp ?? 0;
+        return !state?.isPaused && !!state?.isBuffering && pos === 0;
     }
 
     function scheduleCheck(delayMs) {
@@ -56,15 +52,14 @@
         fixTimer = setTimeout(() => {
             const state = getState();
             const isSameTrack = state?.item?.uri === currentTrackUri;
-            const progressMs = getProgressMs();
 
             if (!isSameTrack) return;
 
-            if (!state?.isPaused && progressMs < 1000) {
-                log(`Track still stuck at ${progressMs}ms`);
+            if (isStuck(state)) {
+                log("Track still stuck at 0:00");
                 applyFix();
             } else {
-                log(`Track is fine at ${progressMs}ms`);
+                log("Track is fine");
                 attempts = 0;
             }
         }, delayMs);
@@ -87,7 +82,6 @@
                 await Spicetify.Platform.PlayerAPI.resume();
             }
 
-            notify("▶ Playback stabilized");
         } catch (e) {
             log("Fix error: " + e);
         }
@@ -118,5 +112,5 @@
         scheduleCheck(INITIAL_DELAY_MS);
     });
 
-    log("Loaded v6 - progress-based detection");
+    log("Loaded v7 - buffering-based detection");
 })();
