@@ -32,9 +32,3 @@ Then enable it:
 spicetify config extensions SpotifyLocalFilesFix.js
 spicetify apply
 ```
-
-## Notes
-
-- The fix runs silently with no popup notification.
-- The detection is targeted at local tracks only.
-- The extension retries once if the first recovery attempt does not clear the stuck state.
